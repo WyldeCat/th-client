@@ -16,11 +16,12 @@ public class ServerManager : MonoBehaviour {
     private string IP_;
     private short port_;
 
-    private TcpListener listener_;
-    private TcpClient client_;
+    private TcpListener listener_ = null;
+    private TcpClient client_ = null;
 
     private SWorld world_;
     private bool is_init_ = false;
+    private bool is_connected_ = false;
 
     public void InitNetwork()
     {
@@ -28,7 +29,16 @@ public class ServerManager : MonoBehaviour {
         listener_.Start();
         listener_.BeginAcceptTcpClient(new AsyncCallback(OnClientAccept),
             listener_);
+    }
 
+    public void SendSnapshot(WorldSnapshot snapshot)
+    {
+        // HACK about async accept
+        if (!is_connected_) return;
+
+        byte[] byteArr = snapshot.W2ByteArray();
+        client_.Client.BeginSend(byteArr, 0,
+            byteArr.Length, SocketFlags.None, null, null);
     }
 
     private void Awake()
@@ -42,15 +52,11 @@ public class ServerManager : MonoBehaviour {
         world_.ServerManager = this;
         is_init_ = true;
     }
-
-    private void LateUpdate()
-    {
-    }
-
     
     private void OnClientAccept(IAsyncResult ar)
     {
         client_ = listener_.EndAcceptTcpClient(ar);
+        is_connected_ = true;
         Debug.Log("Client Accepted");
     }
 }

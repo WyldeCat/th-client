@@ -17,9 +17,14 @@ public class World : MonoBehaviour {
     protected WorldSnapshot CreateWorldSnapshot()
     {
        WorldSnapshot snapshot = new WorldSnapshot(); 
-       snapshot.TestCubePos = test_cube_.transform.position;
+       snapshot.TestCubePos.Set(test_cube_.transform.position);
 
        return snapshot;
+    }
+    
+    protected void SyncWorld(WorldSnapshot snapshot)
+    {
+        test_cube_.transform.position = snapshot.TestCubePos.Get();
     }
 }
 }

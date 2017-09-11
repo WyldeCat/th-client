@@ -10,9 +10,9 @@ namespace TH {
 [Serializable]
 public class WorldSnapshot {
 
-    public Vector3 TestCubePos;
+    public Vector3S TestCubePos;
 
-    byte[] W2ByteArray()
+    public byte[] W2ByteArray()
     {
         BinaryFormatter bf = new BinaryFormatter();
         MemoryStream ms = new MemoryStream();
@@ -21,12 +21,31 @@ public class WorldSnapshot {
         return ms.ToArray();
     }
 
-    static WorldSnapshot B2WorldSnapshot(byte[] byteArr)
+    public static WorldSnapshot B2WorldSnapshot(byte[] byteArr)
     {
         BinaryFormatter bf = new BinaryFormatter();
         MemoryStream ms = new MemoryStream(byteArr);
 
         return bf.Deserialize(ms) as WorldSnapshot;
+    }
+}
+
+[Serializable]
+public struct Vector3S {
+    public float x;
+    public float y;
+    public float z; 
+    
+    public void Set(Vector3 v3)
+    {
+        x = v3.x;
+        y = v3.y;
+        z = v3.z;
+    }
+
+    public Vector3 Get()
+    {
+        return new Vector3(x, y, z);
     }
 }
 }

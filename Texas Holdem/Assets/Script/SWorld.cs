@@ -15,7 +15,6 @@ public class SWorld : World {
     private new void Awake()
     {
         base.Awake();
-        Debug.Log("Awake()");
     }
 
     private void Update()
@@ -23,14 +22,14 @@ public class SWorld : World {
         if (server_manager_ == null) return;
 
         Vector3 prev_loc = test_cube_.transform.position;
-        prev_loc.x += 0.01f;
+        prev_loc.x += 0.001f;
         test_cube_.transform.position = prev_loc;
     }
 
     private void LateUpdate()
     {
         var snapshot = CreateWorldSnapshot();
-        // 
+        server_manager_.SendSnapshot(snapshot);
     }
 }
 }

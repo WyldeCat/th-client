@@ -16,26 +16,26 @@ public class Loader : MonoBehaviour {
 
     public void StartServer()
     {
-        SceneManager.LoadScene("ServerScene");
-        
         GameObject serverManager = Instantiate(serverManagerPrefab);
         serverManager.GetComponent<ServerManager>().IP = IP.text;
         serverManager.GetComponent<ServerManager>().Port = 4000;
             // System.Convert.ToInt16(Port.text);
         serverManager.GetComponent<ServerManager>().InitNetwork();
         DontDestroyOnLoad(serverManager);
+        
+        SceneManager.LoadScene("ServerScene");
     }
 
     public void StartClient()
     {
-        SceneManager.LoadScene("ClientScene");
-
         GameObject clientManager = Instantiate(clientManagerPrefab);
         clientManager.GetComponent<ClientManager>().IP = IP.text;
         clientManager.GetComponent<ClientManager>().Port = 4000;
             // System.Convert.ToInt16(Port.text);
         clientManager.GetComponent<ClientManager>().InitNetwork();
         DontDestroyOnLoad(clientManager);
+
+        SceneManager.LoadScene("ClientScene");
     }
 }
 }

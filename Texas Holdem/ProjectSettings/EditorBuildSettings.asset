@@ -9,5 +9,8 @@ EditorBuildSettings:
     path: Assets/Scene/Config.unity
     guid: e426992b960332442a2c8898622965e6
   - enabled: 1
-    path: Assets/Scene/Main.unity
-    guid: 727b4393d6c352841894f1bd993d0ffc
+    path: Assets/Scene/ClientScene.unity
+    guid: 09a29184424a44c47b4573ac9f04bb49
+  - enabled: 1
+    path: Assets/Scene/ServerScene.unity
+    guid: 54580a3d6efb8844aa8567a013d058e2

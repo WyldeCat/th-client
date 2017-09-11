@@ -3,71 +3,75 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Chips : MonoBehaviour {
-
-    private Vector3 screenPoint;
-    private Vector3 offset;
-    private bool isCollided;
-
-    public Text test;
-    private int height;
-
-    void SetHeight(int h)
+namespace TH
+{
+    public class Chips : MonoBehaviour
     {
-        height = h;
-    }
+        private Vector3 screenPoint;
+        private Vector3 offset;
+        private bool isCollided;
 
-    int GetHeight()
-    {
-        return height;
-    }
+        public Text test;
+        private int height;
 
-    // Use this for initialization
-    void Start()
-    {
-        height = 1;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    void OnMouseDown()
-    {
-        screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-        isCollided = false;
-    }
-
-    void OnMouseDrag()
-    {
-        Vector3 cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-        Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + offset;
-        cursorPosition.y = gameObject.transform.position.y;
-        transform.position = cursorPosition;
-    }
-
-    void OnMouseUp()
-    {
-        if (isCollided == true)
+        void SetHeight(int h)
         {
-            Destroy(this.gameObject);
+            height = h;
         }
-    }
 
-    void OnCollisionEnter(Collision other)
-    {
-        if (other.gameObject.tag == "Chip")
+        int GetHeight()
         {
-            isCollided = true;
+            return height;
         }
-    }
 
-    void OnCollisionExit(Collision other)
-    {
-        isCollided = false;
-        //other.gameObject.
+        // Use this for initialization
+        void Start()
+        {
+            height = 1;
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        void OnMouseDown()
+        {
+            screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+            offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+            isCollided = false;
+        }
+
+        void OnMouseDrag()
+        {
+            Vector3 cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+            Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + offset;
+            //cursorPosition.y = gameObject.transform.position.y;
+            transform.position = cursorPosition;
+        }
+
+        void OnMouseUp()
+        {
+            if (isCollided == true)
+            {
+                Destroy(this.gameObject);
+            }
+        }
+
+        void OnCollisionEnter(Collision other)
+        {
+            if (other.gameObject.tag == "Chips")
+            {
+                isCollided = true;
+            }
+        }
+
+        void OnCollisionExit(Collision other)
+        {
+            isCollided = false;
+
+        }
     }
 }

@@ -22,7 +22,9 @@ public class SWorld : World {
         if (server_manager_ == null) return;
 
         Vector3 prev_loc = test_cube_.transform.position;
-        prev_loc.x += 0.001f;
+        prev_loc.x += Input.GetAxis("Horizontal") * 0.02f;
+        prev_loc.y += Input.GetAxis("Vertical") * 0.02f;
+
         test_cube_.transform.position = prev_loc;
     }
 

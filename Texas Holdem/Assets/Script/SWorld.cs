@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SWorld : MonoBehaviour {
+namespace TH {
+public class SWorld : World {
 
     private ServerManager server_manager_;
 
@@ -11,15 +12,25 @@ public class SWorld : MonoBehaviour {
         set { server_manager_ = value; }
     }
 
+    private new void Awake()
+    {
+        base.Awake();
+        Debug.Log("Awake()");
+    }
+
     private void Update()
     {
         if (server_manager_ == null) return;
 
-        // test codes
-
-        Vector3 prev_loc = transform.GetChild(0).position;
+        Vector3 prev_loc = test_cube_.transform.position;
         prev_loc.x += 0.01f;
-        transform.GetChild(0).position = prev_loc;
-        server_manager_.SetTestVector(prev_loc);
+        test_cube_.transform.position = prev_loc;
     }
+
+    private void LateUpdate()
+    {
+        var snapshot = CreateWorldSnapshot();
+        // 
+    }
+}
 }

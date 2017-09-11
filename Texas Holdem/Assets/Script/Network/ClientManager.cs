@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+namespace TH {
 public class ClientManager : MonoBehaviour {
 
     public string IP { get { return IP_; } set { IP_ = value; } }
@@ -18,13 +19,6 @@ public class ClientManager : MonoBehaviour {
 
     private CWorld world_;
     private bool is_init_ = false;
-
-    // test vector
-    private Vector3 test_vector_;
-    public Vector3 GetTestVector()
-    {
-        return test_vector_;
-    }
 
     public void InitNetwork()
     {
@@ -44,4 +38,5 @@ public class ClientManager : MonoBehaviour {
         world_.ClientManager = this;
         is_init_ = true;
     }
+}
 }

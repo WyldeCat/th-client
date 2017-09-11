@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+namespace TH {
 public class Loader : MonoBehaviour {
 
     public Text IP;
@@ -36,4 +37,5 @@ public class Loader : MonoBehaviour {
         clientManager.GetComponent<ClientManager>().InitNetwork();
         DontDestroyOnLoad(clientManager);
     }
+}
 }

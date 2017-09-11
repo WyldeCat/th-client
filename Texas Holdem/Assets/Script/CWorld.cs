@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
+namespace TH {
 public class CWorld : MonoBehaviour {
 
     private ClientManager client_manager_;
@@ -18,7 +19,6 @@ public class CWorld : MonoBehaviour {
         if (client_manager_ == null) return;
 
         // test codes
-
-        transform.GetChild(0).position = client_manager_.GetTestVector();
     }
+}
 }

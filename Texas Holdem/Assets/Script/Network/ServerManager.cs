@@ -7,6 +7,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+namespace TH {
 public class ServerManager : MonoBehaviour {
 
     public string IP { get { return IP_; } set { IP_ = value; } }
@@ -20,13 +21,6 @@ public class ServerManager : MonoBehaviour {
 
     private SWorld world_;
     private bool is_init_ = false;
-
-    // test vector
-    private Vector3 test_vector_;
-    public void SetTestVector(Vector3 v)
-    {
-        test_vector_ = v;
-    }
 
     public void InitNetwork()
     {
@@ -59,4 +53,5 @@ public class ServerManager : MonoBehaviour {
         client_ = listener_.EndAcceptTcpClient(ar);
         Debug.Log("Client Accepted");
     }
+}
 }

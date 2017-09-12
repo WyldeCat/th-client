@@ -521,7 +521,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1568014320702350, guid: bcbcc2500410072438e900336acfd8ec, type: 2}
       propertyPath: m_Name
-      value: Chips (1)
+      value: Chips2
       objectReference: {fileID: 0}
     - target: {fileID: 65281134252253674, guid: bcbcc2500410072438e900336acfd8ec,
         type: 2}

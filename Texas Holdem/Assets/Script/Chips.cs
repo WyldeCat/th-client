@@ -26,20 +26,12 @@ namespace TH
             tmp.transform.SetParent(gameObject.transform);
             tmp.transform.localPosition = Vector3.zero;
             tmp.transform.localRotation = Quaternion.identity;
-            //tmp.transform.locale = new Vector3(2,0.2f,2);
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         void OnMouseDown()
         {
             screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
             offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-            isCollided = false;
             isClicked = true;
         }
 
@@ -53,10 +45,6 @@ namespace TH
 
         void OnMouseUp()
         {
-            if (isCollided == true)
-            {
-                
-            }
             isClicked = false;
         }
 
@@ -64,38 +52,35 @@ namespace TH
         {
             if (other.gameObject.tag == "Chips")
             {
-                isCollided = true;
                 numberOfChip = gameObject.transform.childCount;
+         
             }
         }
 
         void OnCollisionExit(Collision other)
         {
-            isCollided = false;
             var otherChips = other.gameObject.GetComponent<Chips>();
             var otherCollider = other.gameObject.GetComponent<BoxCollider>();
 
-            if (other.gameObject.tag == "Chips")
+            if (other.gameObject.tag == "Chips" && isClicked)
             {
-                if (isClicked == true)
+                Transform[] children = GetComponentsInChildren<Transform>();
+                foreach (Transform child in children)
                 {
-                    foreach (Transform child in gameObject.transform)
+                    if (child.gameObject.tag == "Chip")
                     {
                         otherChips.numberOfChip++;
                         otherCollider.size += new Vector3(0, 2f, 0);
                         otherCollider.center += new Vector3(0, 1f, 0);
                         child.SetParent(other.gameObject.transform);
-                        child.transform.localPosition = new Vector3(0,1f*otherChips.numberOfChip,0);
-                        
+                        child.transform.localPosition = new Vector3(0, 2.0f * (otherChips.numberOfChip - 1), 0);
                         child.transform.localScale = Vector3.one;
                         child.transform.localRotation = Quaternion.identity;
+                        Debug.Log("Hello", gameObject);
                     }
-                    Destroy(gameObject);
                 }
-                   
+                Destroy(gameObject);
             }
-            //this.gameObject.transform.parent = other.gameObject.transform;
-            //this.gameObject.transform.chil
         }
     }
 }

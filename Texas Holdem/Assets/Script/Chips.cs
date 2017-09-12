@@ -11,21 +11,27 @@ namespace TH
         private Vector3 offset;
         private bool isCollided;
         private bool isClicked;
+        private int numberOfChip;
 
         public Text test;
-        private int numberOfChip;
         public GameObject chip1_Prefab;
         public GameObject chip5_Prefab;
         public GameObject chip10_Prefab;
+        public GameObject newChips;
+
+        void InitObject(GameObject obj, Vector3 pos)
+        {
+            obj.transform.SetParent(gameObject.transform);
+            obj.transform.localPosition = pos;
+            obj.transform.localRotation = Quaternion.identity;
+        }
 
         // Use this for initialization
         void Start()
         {
             numberOfChip = gameObject.transform.childCount;
             GameObject tmp = Instantiate(chip1_Prefab);
-            tmp.transform.SetParent(gameObject.transform);
-            tmp.transform.localPosition = Vector3.zero;
-            tmp.transform.localRotation = Quaternion.identity;
+            InitObject(tmp, Vector3.zero);
         }
 
         void OnMouseDown()
@@ -46,6 +52,27 @@ namespace TH
         void OnMouseUp()
         {
             isClicked = false;
+        }
+
+        void OnMouseOver()
+        {
+            if (Input.GetMouseButtonDown(1) && gameObject.transform.childCount > 1)
+            {
+                GameObject tmp = Instantiate(newChips);
+                InitObject(tmp, new Vector3(1.5f, 0, 0));
+                tmp.transform.SetParent(null);
+
+                var chips = gameObject.GetComponent<Chips>();
+                var collider = gameObject.GetComponent<BoxCollider>();
+
+                Transform child = gameObject.transform.GetChild(0);
+                child.SetParent(null);
+                chips.numberOfChip--;
+                collider.size -= new Vector3(0, 2f, 0);
+                collider.center -= new Vector3(0, 1f, 0);
+                Destroy(child.gameObject);
+          
+            }
         }
 
         void OnCollisionEnter(Collision other)
@@ -76,6 +103,7 @@ namespace TH
                         child.transform.localPosition = new Vector3(0, 2.0f * (otherChips.numberOfChip - 1), 0);
                         child.transform.localScale = Vector3.one;
                         child.transform.localRotation = Quaternion.identity;
+                        child.SetAsFirstSibling();
                         Debug.Log("Hello", gameObject);
                     }
                 }

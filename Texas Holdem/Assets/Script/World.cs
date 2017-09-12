@@ -8,7 +8,8 @@ public class World : MonoBehaviour {
     public GameObject TestCubePrefab;
 
     protected GameObject test_cube_;
-    
+    protected ObjectManager object_manager_;
+
     protected void Awake()
     {
        test_cube_ = Instantiate(TestCubePrefab);
@@ -20,11 +21,6 @@ public class World : MonoBehaviour {
        snapshot.TestCubePos.Set(test_cube_.transform.position);
 
        return snapshot;
-    }
-    
-    protected void SyncWorld(WorldSnapshot snapshot)
-    {
-        test_cube_.transform.position = snapshot.TestCubePos.Get();
     }
 }
 }

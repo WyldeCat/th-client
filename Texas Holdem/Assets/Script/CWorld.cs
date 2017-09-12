@@ -36,5 +36,11 @@ public class CWorld : World {
     {
         ApplySnapshot(CurrSnapshot);
     }
+
+    protected void SyncWorld(WorldSnapshot snapshot)
+    {
+        // have to spawn created objects
+        test_cube_.transform.position = snapshot.TestCubePos.Get();
+    }
 }
 }

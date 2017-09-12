@@ -33,5 +33,7 @@ public class SWorld : World {
         var snapshot = CreateWorldSnapshot();
         server_manager_.SendSnapshot(snapshot);
     }
+
+    // have to handle input
 }
 }

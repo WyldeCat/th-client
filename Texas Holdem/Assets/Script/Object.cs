@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace TH {
-public class Object : MonoBehaviour {
-    World world_;
-    uint object_id;
-    uint possess_info;
+// wrapper of GameObject
+public class Object {
+    public World world;
+    public GameObject gobj;
+    public int object_id;
+    public int object_type;
+    public int possess_info;
 }
 }

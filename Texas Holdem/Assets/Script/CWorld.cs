@@ -39,8 +39,28 @@ public class CWorld : World {
 
     protected void SyncWorld(WorldSnapshot snapshot)
     {
-        // have to spawn created objects
-        test_cube_.transform.position = snapshot.TestCubePos.Get();
+        foreach (var os in snapshot.Objects) {
+            var obj = object_manager_.Find(os.object_id);
+            if (obj == null) {
+                obj = new Object(); 
+                obj.world = this;
+
+                switch (os.object_type) {
+                case 1:
+                    obj.gobj = Instantiate(TestCubePrefab);
+                    break;
+                default:
+                    continue;
+                }
+
+                obj.object_id = os.object_id;
+                obj.object_type = os.object_type;
+                obj.possess_info = os.possess_info;
+
+                object_manager_.Add(obj);
+            }
+            obj.gobj.transform.position = os.pos.Get();
+        }
     }
 }
 }

@@ -12,26 +12,34 @@ namespace TH
         private bool isCollided;
         private bool isClicked;
         private int numberOfChip;
+        private bool isInit; 
 
-        public Text test;
         public GameObject chip1_Prefab;
         public GameObject chip5_Prefab;
         public GameObject chip10_Prefab;
         public GameObject newChips;
+
+        // Use this for initialization
+        void Start()
+        {
+            isInit = false;
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown("x")&&!isInit)
+            {
+                isInit = true;
+                GameObject tmp = Instantiate(chip1_Prefab);
+                InitObject(tmp, Vector3.zero);
+            }
+        }
 
         void InitObject(GameObject obj, Vector3 pos)
         {
             obj.transform.SetParent(gameObject.transform);
             obj.transform.localPosition = pos;
             obj.transform.localRotation = Quaternion.identity;
-        }
-
-        // Use this for initialization
-        void Start()
-        {
-            numberOfChip = gameObject.transform.childCount;
-            GameObject tmp = Instantiate(chip1_Prefab);
-            InitObject(tmp, Vector3.zero);
         }
 
         void OnMouseDown()
@@ -58,57 +66,70 @@ namespace TH
         {
             if (Input.GetMouseButtonDown(1) && gameObject.transform.childCount > 1)
             {
-                GameObject tmp = Instantiate(newChips);
-                InitObject(tmp, new Vector3(1.5f, 0, 0));
-                tmp.transform.SetParent(null);
-
-                var chips = gameObject.GetComponent<Chips>();
-                var collider = gameObject.GetComponent<BoxCollider>();
-
-                Transform child = gameObject.transform.GetChild(0);
-                child.SetParent(null);
-                chips.numberOfChip--;
-                collider.size -= new Vector3(0, 2f, 0);
-                collider.center -= new Vector3(0, 1f, 0);
-                Destroy(child.gameObject);
-          
+                GameObject a = SeperateChips(1);
             }
+
         }
 
-        void OnCollisionEnter(Collision other)
+        void OnCollisionEnter(Collision target)
         {
-            if (other.gameObject.tag == "Chips")
+            if (target.gameObject.tag == "Chips")
             {
                 numberOfChip = gameObject.transform.childCount;
-         
             }
         }
 
-        void OnCollisionExit(Collision other)
+        void OnCollisionExit(Collision target)
         {
-            var otherChips = other.gameObject.GetComponent<Chips>();
-            var otherCollider = other.gameObject.GetComponent<BoxCollider>();
-
-            if (other.gameObject.tag == "Chips" && isClicked)
+            if (target.gameObject.tag == "Chips" && isClicked)
             {
-                Transform[] children = GetComponentsInChildren<Transform>();
-                foreach (Transform child in children)
-                {
-                    if (child.gameObject.tag == "Chip")
-                    {
-                        otherChips.numberOfChip++;
-                        otherCollider.size += new Vector3(0, 2f, 0);
-                        otherCollider.center += new Vector3(0, 1f, 0);
-                        child.SetParent(other.gameObject.transform);
-                        child.transform.localPosition = new Vector3(0, 2.0f * (otherChips.numberOfChip - 1), 0);
-                        child.transform.localScale = Vector3.one;
-                        child.transform.localRotation = Quaternion.identity;
-                        child.SetAsFirstSibling();
-                        Debug.Log("Hello", gameObject);
-                    }
-                }
+                int n = gameObject.transform.childCount;
+                MoveToTarget(target.gameObject, n);
                 Destroy(gameObject);
             }
+        }
+
+        void MoveToTarget(GameObject target, int n)
+        {
+            var targetChips = target.GetComponent<Chips>();
+            var targetCollider = target.GetComponent<BoxCollider>();
+            Transform[] children = GetComponentsInChildren<Transform>();
+            int loop = n;
+            foreach (Transform child in children)
+            {
+                if (child.gameObject.tag == "Chip")
+                {
+                    if (--loop < 0) break;
+                    targetChips.numberOfChip++;
+                    child.SetParent(target.transform);
+                    child.transform.localPosition = new Vector3(0, 2*(targetChips.numberOfChip - 1), 0);
+                    child.transform.localScale = Vector3.one;
+                    child.transform.localRotation = Quaternion.identity;
+                    child.SetAsFirstSibling();
+                }
+            }
+            targetCollider.size += new Vector3(0, 2*n, 0);
+            targetCollider.center += new Vector3(0, n, 0);
+        }
+
+        GameObject SeperateChips(int n)
+        {
+            GameObject tmp = Instantiate(newChips);
+            InitObject(tmp, new Vector3(1.5f, 0, 0));
+            tmp.transform.SetParent(null);
+
+            var sourceChips = gameObject.GetComponent<Chips>();
+            var sourceCollider = gameObject.GetComponent<BoxCollider>();
+            sourceChips.numberOfChip -= n;
+            sourceCollider.size -= new Vector3(0, 2f * n, 0);
+            sourceCollider.center -= new Vector3(0, n, 0);
+
+            var targetCollider = tmp.GetComponent<BoxCollider>();
+            targetCollider.center = new Vector3(0, -1, 0);
+            targetCollider.size = new Vector3(1, 0, 1);
+
+            MoveToTarget(tmp, n);
+            return tmp;
         }
     }
 }

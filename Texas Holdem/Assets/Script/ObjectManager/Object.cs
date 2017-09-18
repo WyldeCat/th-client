@@ -5,8 +5,8 @@ using UnityEngine;
 namespace TH {
 // wrapper of GameObject in TH
 public class Object {
-    public delegate object SnapshotProducer();
-    public delegate void SnapshotHandler(object snapshot);
+    public delegate ObjectSnapshot SnapshotProducer();
+    public delegate void SnapshotHandler(ObjectSnapshot snapshot);
 
     public World world;
 

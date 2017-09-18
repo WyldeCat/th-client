@@ -5,13 +5,11 @@ using UnityEngine;
 
 namespace TH {
 [Serializable]
-public struct ObjectSnapshot {
+public class ObjectSnapshot {
     public int object_id;
     public int object_type;
     public int possess_info;
     public Vector3S pos;
-
-    public object additional_info;
 }
 
 [Serializable]

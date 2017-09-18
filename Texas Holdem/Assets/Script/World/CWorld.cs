@@ -47,7 +47,7 @@ public class CWorld : World {
 
                 switch (os.object_type) {
                 case 1:
-                    obj.gobj = Instantiate(TestCubePrefab);
+                    obj.gobj = Instantiate(CubePrefab);
                     break;
                 default:
                     continue;

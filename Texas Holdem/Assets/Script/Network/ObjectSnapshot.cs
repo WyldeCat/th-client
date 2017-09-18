@@ -10,6 +10,8 @@ public struct ObjectSnapshot {
     public int object_type;
     public int possess_info;
     public Vector3S pos;
+
+    public object additional_info;
 }
 
 [Serializable]

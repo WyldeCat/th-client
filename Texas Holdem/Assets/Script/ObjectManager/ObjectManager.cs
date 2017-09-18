@@ -52,6 +52,11 @@ public class ObjectManager {
             objects_snapshot[i].possess_info = kv.Value.possess_info;
             objects_snapshot[i].pos.Set(
                 kv.Value.gobj.transform.position);
+            
+            if (kv.Value.snapshot_handler == null) continue;
+
+            objects_snapshot[i].additional_info =
+                kv.Value.snapshot_producer();
         }
 
         return objects_snapshot;

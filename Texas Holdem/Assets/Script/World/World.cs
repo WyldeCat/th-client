@@ -5,7 +5,8 @@ using UnityEngine;
 namespace TH {
 public class World : MonoBehaviour {
 
-    public GameObject TestCubePrefab;
+    public GameObject ChipsPrefab;
+    public GameObject CubePrefab;
 
     protected ObjectManager object_manager_;
 
@@ -19,6 +20,7 @@ public class World : MonoBehaviour {
        WorldSnapshot snapshot = new WorldSnapshot(); 
        snapshot.ObjectNum = object_manager_.Count;
        snapshot.Objects = object_manager_.CreateObjectsSnapshot();
+
        return snapshot;
     }
 }

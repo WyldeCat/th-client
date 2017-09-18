@@ -18,7 +18,7 @@ public class SWorld : World {
         base.Awake();
         test_cube_ = new Object();
 
-        test_cube_.gobj = Instantiate(TestCubePrefab);
+        test_cube_.gobj = Instantiate(CubePrefab);
         test_cube_.world = this;
         test_cube_.object_id = 1;
         test_cube_.object_type = 1;
@@ -44,7 +44,6 @@ public class SWorld : World {
         var snapshot = CreateWorldSnapshot();
         server_manager_.SendSnapshot(snapshot);
     }
+}
+}
 
-    // have to handle input
-}
-}

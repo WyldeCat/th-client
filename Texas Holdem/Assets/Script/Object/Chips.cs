@@ -27,12 +27,6 @@ namespace TH
 
         void Update()
         {
-            if (Input.GetKeyDown("x")&&!isInit)
-            {
-                isInit = true;
-                GameObject tmp = Instantiate(chip1_Prefab);
-                InitObject(tmp, Vector3.zero);
-            }
         }
 
         void InitObject(GameObject obj, Vector3 pos)
@@ -133,3 +127,4 @@ namespace TH
         }
     }
 }
+

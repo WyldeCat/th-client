@@ -80,10 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b515279264e4e9b4ea356ea6392ff698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chip1_Prefab: {fileID: 1613997528266616, guid: a2363688192d3ec4185adf3b7ce919a0,
-    type: 2}
-  chip5_Prefab: {fileID: 1864124619599952, guid: aa822c88fafa3ca4a842092cede34021,
-    type: 2}
-  chip10_Prefab: {fileID: 1434425550020656, guid: 66e60d855dbfa4a40804ceaf99e5b879,
-    type: 2}
+  chipPrefabs:
+  - {fileID: 1613997528266616, guid: a2363688192d3ec4185adf3b7ce919a0, type: 2}
+  - {fileID: 1864124619599952, guid: aa822c88fafa3ca4a842092cede34021, type: 2}
+  - {fileID: 1434425550020656, guid: 66e60d855dbfa4a40804ceaf99e5b879, type: 2}
   newChips: {fileID: 1982733173000384, guid: 50f714b4f5b50c14f8eb9b9117240acd, type: 2}

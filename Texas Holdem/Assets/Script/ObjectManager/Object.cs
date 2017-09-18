@@ -15,7 +15,7 @@ public class Object {
     public int object_id;
     public int object_type;
     public int possess_info;
-
+    
     public SnapshotProducer snapshot_producer;
     public SnapshotHandler snapshot_handler;
 }

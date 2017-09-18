@@ -11,7 +11,7 @@ public class ObjectSnapshot {
     public int possess_info;
     public Vector3S pos;
 }
-
+    
 [Serializable]
 public struct Vector3S {
     public float x;

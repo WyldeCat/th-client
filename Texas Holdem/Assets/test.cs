@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace TH {
-public class test : MonoBehaviour {
+public class Test : MonoBehaviour {
 
+        public GameObject chipsFrame;
     // Use this for initialization
     void Start() {
-            Chips tmp = new Chips();
-            tmp.SetChips(1, 5);
+            GameObject tmp = Instantiate(chipsFrame);
+            Chips chips = tmp.GetComponent<Chips>();
+            chips.SetChips(1, 5);
 
-}
+    }
 
     // Update is called once per frame
     void Update() {

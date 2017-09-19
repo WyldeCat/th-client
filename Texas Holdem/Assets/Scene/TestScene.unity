@@ -274,3 +274,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 909db3aafc0ddf348bc56e3b58e3a578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  chipsFrame: {fileID: 1982733173000384, guid: 50f714b4f5b50c14f8eb9b9117240acd, type: 2}

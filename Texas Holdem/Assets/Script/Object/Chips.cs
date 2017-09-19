@@ -107,7 +107,7 @@ public class Chips : MonoBehaviour
         return true;
     }
 
-    GameObject SeperateChips(int n)
+    public GameObject SeperateChips(int n)
     {
         GameObject tmp = Instantiate(newChips);
         InitObject(tmp, new Vector3(1.5f, 0, 0));
@@ -136,13 +136,17 @@ public class Chips : MonoBehaviour
             chip.transform.SetParent(gameObject.transform);
             chip.transform.localPosition = new Vector3(0, 2 * (numberOfChip - 1), 0);
             chip.transform.localRotation = Quaternion.identity;
+            chip.transform.SetAsFirstSibling();
         }
+            var col = GetComponent<BoxCollider>();
+            col.size += new Vector3(0, 2 * (num-1), 0);
+            col.center += new Vector3(0, num-1, 0);
     }
 
     ObjectSnapshot GetObjSnapshot()
     {
         var objSnapshot = new ChipsSnapshot();
-        //objSnapshot.object_id = obj.object_id;
+        objSnapshot.object_id = obj.object_id;
         objSnapshot.object_type = obj.object_type;
         objSnapshot.pos.Set(gameObject.transform.position);
         objSnapshot.height = numberOfChip;
@@ -156,6 +160,11 @@ public class Chips : MonoBehaviour
         gameObject.transform.position = syncInfo.pos.Get();
         value = syncInfo.value;
         numberOfChip = syncInfo.height;
+    }
+
+    public void SetObjectId(int id)
+    {
+            obj.object_id = id;
     }
 }
 }

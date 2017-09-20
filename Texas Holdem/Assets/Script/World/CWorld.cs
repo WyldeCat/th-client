@@ -42,24 +42,20 @@ public class CWorld : World {
         foreach (var os in snapshot.Objects) {
             var obj = object_manager_.Find(os.object_id);
             if (obj == null) {
-                obj = new Object(); 
-                obj.world = this;
-
                 switch (os.object_type) {
                 case 1:
-                    obj.gobj = Instantiate(CubePrefab);
+                    var Chips = Instantiate(ChipsPrefab).
+                        GetComponent<Chips>();
+                    obj = Chips.Object;
+                    Chips.Object.Id = os.object_id;
+                    Chips.ObjectManager = object_manager_;
                     break;
                 default:
                     continue;
                 }
-
-                obj.object_id = os.object_id;
-                obj.object_type = os.object_type;
-                obj.possess_info = os.possess_info;
-
                 object_manager_.Add(obj);
             }
-            obj.gobj.transform.position = os.pos.Get();
+            obj.snapshot_handler(os);
         }
     }
 }

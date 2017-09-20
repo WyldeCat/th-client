@@ -18,5 +18,14 @@ public class Object {
     
     public SnapshotProducer snapshot_producer;
     public SnapshotHandler snapshot_handler;
+
+    public int Id {
+        get {
+            return object_id;
+        }
+        set {
+            object_id = value;
+        }
+    }
 }
 }

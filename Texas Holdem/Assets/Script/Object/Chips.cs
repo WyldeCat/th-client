@@ -7,6 +7,8 @@ namespace TH
 {
 public class Chips : MonoBehaviour
 {
+    private static int lastChipId = 0;
+
     private Vector3 screenPoint;
     private Vector3 offset;
     private bool isClicked;
@@ -14,15 +16,33 @@ public class Chips : MonoBehaviour
     private int value;
 
     private Object obj;
-    public GameObject [] chipPrefabs;
-    public GameObject newChips;
+    private ObjectManager objectManager;
+
+    [SerializeField]
+    private GameObject [] chipPrefabs;
+    [SerializeField]
+    private GameObject newChips;
+
+    public Object Object {
+        get {
+            return obj;
+        }
+    }
+
+    public ObjectManager ObjectManager {
+        get {
+            return objectManager;
+        }
+        set {
+            objectManager = value;
+        }
+    }
 
     void Awake()
     {
         obj = new Object();
         obj.gobj = gameObject;
-        //obj.object_id = 
-        obj.object_type = 1;//Chips
+        obj.object_type = 1; //Chips
         obj.snapshot_producer = GetObjSnapshot;
         obj.snapshot_handler = SyncChips;
     }
@@ -160,11 +180,6 @@ public class Chips : MonoBehaviour
         gameObject.transform.position = syncInfo.pos.Get();
         value = syncInfo.value;
         numberOfChip = syncInfo.height;
-    }
-
-    public void SetObjectId(int id)
-    {
-            obj.object_id = id;
     }
 }
 }

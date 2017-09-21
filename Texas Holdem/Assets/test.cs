@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace TH {
-public class Test : MonoBehaviour {
+public class test : MonoBehaviour {
 
         public GameObject chipsFrame;
     // Use this for initialization

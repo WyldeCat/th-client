@@ -5,18 +5,30 @@ using UnityEngine;
 namespace TH {
 public class ObjectManager {
 
-    private Dictionary<int, Object> dictionary_;
+    private SortedDictionary<int, Object> dictionary_;
     private int index_;
 
     public int Count {
-        get { 
+        get {
             return dictionary_.Count;
         }
     }
 
+    public SortedDictionary<int, Object> Dictionary {
+        get {
+            return dictionary_;
+        }
+    }
+
+    public SortedDictionary<int, Object>.Enumerator Enumerator {
+        get {
+            return dictionary_.GetEnumerator();
+        }
+    }
+    
     public ObjectManager()
     {
-        dictionary_ = new Dictionary<int, Object>();
+        dictionary_ = new SortedDictionary<int, Object>();
     }
 
     public Object Find(int id)
@@ -48,7 +60,7 @@ public class ObjectManager {
 
         foreach (var kv in dictionary_) {
             if (kv.Value.snapshot_handler == null) continue;
-            objects_snapshot[i] = kv.Value.snapshot_producer();
+            objects_snapshot[i++] = kv.Value.snapshot_producer();
         }
 
         return objects_snapshot;

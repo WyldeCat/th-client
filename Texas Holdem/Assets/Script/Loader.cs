@@ -17,9 +17,9 @@ public class Loader : MonoBehaviour {
     public void StartServer()
     {
         GameObject serverManager = Instantiate(serverManagerPrefab);
-        serverManager.GetComponent<ServerManager>().IP = IP.text;
-        serverManager.GetComponent<ServerManager>().Port =
-            System.Convert.ToInt16(Port.text);
+            serverManager.GetComponent<ServerManager>().IP = IP.text;
+            serverManager.GetComponent<ServerManager>().Port =
+                 System.Convert.ToInt16(Port.text);
         serverManager.GetComponent<ServerManager>().InitNetwork();
         DontDestroyOnLoad(serverManager);
         
@@ -29,9 +29,9 @@ public class Loader : MonoBehaviour {
     public void StartClient()
     {
         GameObject clientManager = Instantiate(clientManagerPrefab);
-        clientManager.GetComponent<ClientManager>().IP = IP.text;
-        clientManager.GetComponent<ClientManager>().Port =
-            System.Convert.ToInt16(Port.text);
+            clientManager.GetComponent<ClientManager>().IP = IP.text;
+            clientManager.GetComponent<ClientManager>().Port =  
+                System.Convert.ToInt16(Port.text);
         clientManager.GetComponent<ClientManager>().InitNetwork();
         DontDestroyOnLoad(clientManager);
 

@@ -24,6 +24,7 @@ public class CWorld : World {
     private new void Awake()
     {
         base.Awake();
+        Chips.ObjectManager = object_manager_;
         CurrSnapshot = CreateWorldSnapshot();
     }
 
@@ -44,18 +45,37 @@ public class CWorld : World {
             if (obj == null) {
                 switch (os.object_type) {
                 case 1:
-                    var Chips = Instantiate(ChipsPrefab).
+                    var chips = Instantiate(ChipsPrefab).
                         GetComponent<Chips>();
-                    obj = Chips.Object;
-                    Chips.Object.Id = os.object_id;
-                    Chips.ObjectManager = object_manager_;
+                    obj = chips.Object;
+                    chips.Object.Id = os.object_id;
                     break;
                 default:
                     continue;
                 }
-                object_manager_.Add(obj);
             }
             obj.snapshot_handler(os);
+        }
+
+        int[]list = new int[30];
+        int count = 0;
+
+        foreach (var kv in object_manager_.Dictionary) {
+            bool is_exist = false;
+            foreach (var os in snapshot.Objects) {
+                if (os.object_id == kv.Value.object_id) {
+                    is_exist = true;
+                    break;
+                }
+            }
+            if (!is_exist) {
+                list[count++] = kv.Value.object_id;
+                Destroy(kv.Value.gobj);
+            }
+        }
+
+        for (var i = 0; i < count; i++) {
+            object_manager_.Delete(list[i]);
         }
     }
 }

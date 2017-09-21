@@ -15,11 +15,9 @@ public class SWorld : World {
     private new void Awake()
     {
         base.Awake();
+        Chips.ObjectManager = object_manager_;
         var chips = Instantiate(ChipsPrefab).GetComponent<Chips>();
         chips.SetChips(0, 3);
-        chips.Object.Id = 10;
-        chips.ObjectManager = object_manager_;
-        object_manager_.Add(chips.Object);
     }
 
     private void Update()

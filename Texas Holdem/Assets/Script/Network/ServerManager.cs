@@ -27,7 +27,8 @@ public class ServerManager : MonoBehaviour {
     {
         listener_ = new TcpListener(IPAddress.Parse(IP_), port_);
         listener_.Start();
-        listener_.BeginAcceptTcpClient(new AsyncCallback(OnClientAccept),
+        listener_.BeginAcceptTcpClient(
+            new AsyncCallback(OnClientAccept),
             listener_);
     }
 
@@ -37,6 +38,11 @@ public class ServerManager : MonoBehaviour {
         if (!is_connected_) return;
 
         byte[] byteArr = snapshot.W2ByteArray();
+        byte[] header = System.BitConverter.GetBytes(
+            (ushort)byteArr.Length);
+        client_.Client.BeginSend(header, 0,
+            header.Length, SocketFlags.None, null, null);
+            
         client_.Client.BeginSend(byteArr, 0,
             byteArr.Length, SocketFlags.None, null, null);
     }
@@ -46,7 +52,8 @@ public class ServerManager : MonoBehaviour {
         SceneManager.sceneLoaded += OnMainFinishedLoading;
     }
 
-    private void OnMainFinishedLoading(Scene scene, LoadSceneMode mode)
+    private void OnMainFinishedLoading(Scene scene,
+        LoadSceneMode mode)
     {
         world_ = GameObject.Find("SWorld").GetComponent<SWorld>();
         world_.ServerManager = this;

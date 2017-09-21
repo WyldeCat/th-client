@@ -19,6 +19,7 @@ public class ClientManager : MonoBehaviour {
     private TcpClient server_;
     // HACK
     private byte[] buffer_ = new byte[1024];
+    private byte[] header_ = new byte[2];
     private CWorld world_;
     private bool is_init_ = false;
     private bool is_connected_ = false;
@@ -41,8 +42,8 @@ public class ClientManager : MonoBehaviour {
     {
         if (!is_connected_) return;
         // assume well connected to server
-        server_.Client.BeginReceive(buffer_, 0, 1024, SocketFlags.None,
-            new System.AsyncCallback(OnSnapshotReceive), null);
+        server_.Client.BeginReceive(header_, 0, 2, SocketFlags.None, 
+            new System.AsyncCallback(OnHeaderReceive), null);
     }
     
     private void Awake()
@@ -50,11 +51,27 @@ public class ClientManager : MonoBehaviour {
         SceneManager.sceneLoaded += OnMainFinishedLoading;
     }
 
-    private void OnMainFinishedLoading(Scene scene, LoadSceneMode mode)
+    private void OnMainFinishedLoading(Scene scene,
+        LoadSceneMode mode)
     {
         world_ = GameObject.Find("CWorld").GetComponent<CWorld>();
         world_.ClientManager = this;
         is_init_ = true;
+    }
+
+    private void OnHeaderReceive(System.IAsyncResult iar)
+    {
+        int n = server_.Client.EndReceive(iar);
+        if (n == 0) {
+            is_connected_ = false;
+            Debug.Log("Connection closed.");
+            return;
+        }
+
+        uint size = System.BitConverter.ToUInt16(header_, 0);
+        server_.Client.BeginReceive(buffer_, 0, (int)size,
+            SocketFlags.None,
+            new System.AsyncCallback(OnSnapshotReceive), null);
     }
 
     private void OnSnapshotReceive(System.IAsyncResult iar)

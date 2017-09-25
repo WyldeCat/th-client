@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Deck : MonoBehaviour {
-    
+namespace TH
+{
+public class Deck : MonoBehaviour
+{
+    void Init()
+    {
+
+    }
+
+    void Shuffle()
+    {
+
+    }
+}
 }

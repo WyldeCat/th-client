@@ -54,6 +54,11 @@ public class CWorld : World {
                     continue;
                 }
             }
+            var collider = obj.gobj.GetComponent<Collider>();
+            if (collider != null) {
+                Debug.Log("Collider disabled");
+                collider.enabled = false;
+            }
             obj.snapshot_handler(os);
         }
 

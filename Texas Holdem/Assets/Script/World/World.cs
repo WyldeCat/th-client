@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace TH {
-public class World : MonoBehaviour {
+public abstract class World : MonoBehaviour {
 
     public GameObject ChipsPrefab;
     public GameObject CubePrefab;
 
     protected ObjectManager object_manager_;
+
+    public static int HostId = 0x7fffffff;
 
     protected void Awake()
     {

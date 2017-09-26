@@ -24,6 +24,10 @@ public class CWorld : World {
     private new void Awake()
     {
         base.Awake();
+        
+        // HACK
+        HostId = 1;
+
         Chips.ObjectManager = object_manager_;
         CurrSnapshot = CreateWorldSnapshot();
     }
@@ -49,6 +53,8 @@ public class CWorld : World {
                         GetComponent<Chips>();
                     obj = chips.Object;
                     chips.Object.Id = os.object_id;
+                    chips.Object.PossessInfo =
+                        os.possess_info;
                     break;
                 default:
                     continue;

@@ -15,19 +15,22 @@ public class SWorld : World {
     private new void Awake()
     {
         base.Awake();
+
+        // HACK
+        HostId = 0;
+
         Chips.ObjectManager = object_manager_;
 
-        var gchip1 = Instantiate(ChipsPrefab);
-        var gchip2 = Instantiate(ChipsPrefab);
-
-        var chips1 = gchip1.GetComponent<Chips>();
-        var chips2 = gchip2.GetComponent<Chips>();
-
-        gchip1.transform.position = new Vector3(0, 0, -3);
-        gchip2.transform.position = new Vector3(2, 0, 3);
+        var chips1 = Instantiate(ChipsPrefab, new Vector3(0, 0, -3),
+            Quaternion.identity).GetComponent<Chips>();
+        var chips2 = Instantiate(ChipsPrefab, new Vector3(2, 0, 3),
+            Quaternion.identity).GetComponent<Chips>();
 
         chips1.SetChips(0, 4);
+        chips1.Object.PossessInfo = 0;
+
         chips2.SetChips(0, 3);
+        chips2.Object.PossessInfo = 1;
     }
 
     private void Update()

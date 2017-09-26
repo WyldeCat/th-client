@@ -17,9 +17,24 @@ public class Loader : MonoBehaviour {
     public void StartServer()
     {
         GameObject serverManager = Instantiate(serverManagerPrefab);
-        serverManager.GetComponent<ServerManager>().IP = "127.0.0.1";
-        serverManager.GetComponent<ServerManager>().Port = 4000;
-        //     System.Convert.ToInt16(Port.text);
+
+        if (IP.text == "") {
+            serverManager.GetComponent<ServerManager>().IP = "127.0.0.1";
+        }
+
+        else {
+            serverManager.GetComponent<ServerManager>().IP = IP.text;
+        }
+        
+        if (Port.text == "") {
+            serverManager.GetComponent<ServerManager>().Port = 4000;
+        }
+        
+        else {
+            serverManager.GetComponent<ServerManager>().Port =
+                System.Convert.ToInt16(Port.text);
+        }
+        
         serverManager.GetComponent<ServerManager>().InitNetwork();
         DontDestroyOnLoad(serverManager);
         
@@ -29,9 +44,24 @@ public class Loader : MonoBehaviour {
     public void StartClient()
     {
         GameObject clientManager = Instantiate(clientManagerPrefab);
-        clientManager.GetComponent<ClientManager>().IP = "127.0.0.1";
-        clientManager.GetComponent<ClientManager>().Port = 4000;
-        //    System.Convert.ToInt16(Port.text);
+
+        if (IP.text == "") {
+            clientManager.GetComponent<ClientManager>().IP = "127.0.0.1";
+        }
+
+        else {
+            clientManager.GetComponent<ClientManager>().IP = IP.text;
+        }
+
+        if (Port.text == "") {
+            clientManager.GetComponent<ClientManager>().Port = 4000;
+        }
+
+        else {
+            clientManager.GetComponent<ClientManager>().Port =
+                System.Convert.ToInt16(Port.text);
+        }
+
         clientManager.GetComponent<ClientManager>().InitNetwork();
         DontDestroyOnLoad(clientManager);
 

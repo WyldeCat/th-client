@@ -7,48 +7,46 @@ namespace TH
 {
 public class Chips : MonoBehaviour
 {
-    private static int lastChipId = 0;
-        public int id;
+    private static int lastChipId_ = 0;
 
-    private Vector3 screenPoint;
-    private Vector3 offset;
-    private bool isClicked;
-    private int numberOfChip;
-    private int value;
+    private Vector3 screenPoint_;
+    private Vector3 offset_;
+    private bool isClicked_;
+    private int numberOfChip_;
+    private int value_;
 
-    private Object obj;
-    private static ObjectManager objectManager;
+    private Object obj_;
+    private static ObjectManager objectManager_;
 
     [SerializeField]
-    private GameObject [] chipPrefabs;
+    private GameObject [] chipPrefabs_;
     [SerializeField]
-    private GameObject newChips;
+    private GameObject newChips_;
 
     public Object Object {
         get {
-            return obj;
+            return obj_;
         }
     }
 
     public static ObjectManager ObjectManager {
         get {
-            return objectManager;
+            return objectManager_;
         }
         set {
-            objectManager = value;
+            objectManager_ = value;
         }
     }
 
     void Awake()
     {
-        obj = new Object();
-        obj.gobj = gameObject;
-        obj.object_type = 1;
-        obj.Id = (lastChipId++);
-        id = obj.Id;
-        ObjectManager.Add(obj);
-        obj.snapshot_producer = GetObjSnapshot;
-        obj.snapshot_handler = SyncChips;
+        obj_ = new Object();
+        obj_.gobj = gameObject;
+        obj_.object_type = 1;
+        obj_.Id = (lastChipId_++);
+        ObjectManager.Add(obj_);
+        obj_.snapshot_producer = GetObjSnapshot;
+        obj_.snapshot_handler = SyncChips;
     }
 
     void InitObject(GameObject gobj, Vector3 pos)
@@ -60,21 +58,21 @@ public class Chips : MonoBehaviour
 
     void OnMouseDown()
     {
-        screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
-        offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-        isClicked = true;
+        screenPoint_ = Camera.main.WorldToScreenPoint(gameObject.transform.position);
+        offset_ = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint_.z));
+        isClicked_ = true;
     }
 
     void OnMouseDrag()
     {
-        Vector3 cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-        Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + offset;
+        Vector3 cursorPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint_.z);
+        Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(cursorPoint) + offset_;
         transform.position = cursorPosition;
     }
 
     void OnMouseUp()
     {
-        isClicked = false;
+        isClicked_ = false;
     }
 
     void OnMouseOver()
@@ -90,18 +88,18 @@ public class Chips : MonoBehaviour
     {
         if (target.gameObject.tag == "Chips")
         {
-            numberOfChip = gameObject.transform.childCount;
+            numberOfChip_ = gameObject.transform.childCount;
         }
     }
 
         void OnCollisionExit(Collision target)
         {
-            if (target.gameObject.tag == "Chips" && isClicked)
+            if (target.gameObject.tag == "Chips" && isClicked_)
             {
                 int n = gameObject.transform.childCount;
                 if (MoveToTarget(target.gameObject, n))
                 {
-                    objectManager.Delete(Object.Id);
+                    objectManager_.Delete(Object.Id);
                     Destroy(gameObject);
                 }
             }
@@ -116,7 +114,7 @@ public class Chips : MonoBehaviour
         bool MoveToTarget(GameObject target, int num)
         {
             var targetChips = target.GetComponent<Chips>();
-            if (targetChips.value != value)
+            if (targetChips.value_ != value_)
                 return false;
             var sourceChips = GetComponent<Chips>();
 
@@ -130,15 +128,15 @@ public class Chips : MonoBehaviour
                 if (child.gameObject.tag == "Chip")
                 {
                     if (--loop < 0) break;
-                    targetChips.numberOfChip++;
+                    targetChips.numberOfChip_++;
                     child.SetParent(target.transform);
-                    child.transform.localPosition = new Vector3(0, 2 * (targetChips.numberOfChip - 1), 0);
+                    child.transform.localPosition = new Vector3(0, 2 * (targetChips.numberOfChip_ - 1), 0);
                     child.transform.localScale = Vector3.one; 
                     child.transform.localRotation = Quaternion.identity;
                     child.SetAsFirstSibling();
                 }
             }
-            sourceChips.numberOfChip -= num;
+            sourceChips.numberOfChip_ -= num;
             RegulateCollider(sourceCollider, -num);
             RegulateCollider(targetCollider, num);
             return true;
@@ -146,7 +144,7 @@ public class Chips : MonoBehaviour
 
         public GameObject SeperateChips(int n)
         {
-            GameObject tmp = Instantiate(newChips);
+            GameObject tmp = Instantiate(newChips_);
             InitObject(tmp, new Vector3(1.5f, 0, 0));
             tmp.transform.SetParent(null);
 
@@ -165,10 +163,10 @@ public class Chips : MonoBehaviour
             {
                 for (int i = 0; i < num; ++i)
                 {
-                    GameObject chip = Instantiate(chipPrefabs[value]);
+                    GameObject chip = Instantiate(chipPrefabs_[value]);
                     chip.transform.SetParent(gameObject.transform);
-                    numberOfChip++;
-                    chip.transform.localPosition = new Vector3(0, 2 * (numberOfChip - 1), 0);
+                    numberOfChip_++;
+                    chip.transform.localPosition = new Vector3(0, 2 * (numberOfChip_ - 1), 0);
                     chip.transform.localRotation = Quaternion.identity;
                     chip.transform.SetAsFirstSibling();
                 }
@@ -194,22 +192,22 @@ public class Chips : MonoBehaviour
     ObjectSnapshot GetObjSnapshot()
     {
         var objSnapshot = new ChipsSnapshot();
-        objSnapshot.object_id = obj.object_id;
-        objSnapshot.object_type = obj.object_type;
+        objSnapshot.object_id = obj_.object_id;
+        objSnapshot.object_type = obj_.object_type;
         objSnapshot.pos.Set(gameObject.transform.position);
-        objSnapshot.height = numberOfChip;
-        objSnapshot.value = value;
+        objSnapshot.height = numberOfChip_;
+        objSnapshot.value = value_;
         return objSnapshot as ObjectSnapshot;
     }
     
     void SyncChips(ObjectSnapshot objSnapshot)
     {
         var syncInfo = objSnapshot as ChipsSnapshot;
-        if(syncInfo.height != numberOfChip)
-            SetChips(syncInfo.value, syncInfo.height - numberOfChip);
+        if(syncInfo.height != numberOfChip_)
+            SetChips(syncInfo.value, syncInfo.height - numberOfChip_);
         gameObject.transform.position = syncInfo.pos.Get();
-        value = syncInfo.value;
-        numberOfChip = syncInfo.height;
+        value_ = syncInfo.value;
+        numberOfChip_ = syncInfo.height;
     }
 }
 }
